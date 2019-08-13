@@ -42,8 +42,9 @@ void Min_child(vector<string>&v) {
 //		while (n--) {
 //			cin >> s >> s;
 //			v.push_back(s);
-//		}
-//		Min_child(v);
-//	}
-//	return 0;
+		}
+		Min_child(v);
+
+	}
+	return 0;
 }
