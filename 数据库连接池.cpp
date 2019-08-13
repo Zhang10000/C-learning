@@ -46,4 +46,4 @@ void Min_child(vector<string>&v) {
 //		Min_child(v);
 //	}
 //	return 0;
-//}
+}
