@@ -34,16 +34,16 @@ void Min_child(vector<string>&v) {
 		//sum += count[i];
 	cout << sum << endl;
 }
-int main() {
-	int n;
-	while (cin >> n) {
-		string s;
-		vector<string>v;
-		while (n--) {
-			cin >> s >> s;
-			v.push_back(s);
-		}
-		Min_child(v);
-	}
-	return 0;
-}
+//int main() {
+//	int n;
+//	while (cin >> n) {
+//		string s;
+//		vector<string>v;
+//		while (n--) {
+//			cin >> s >> s;
+//			v.push_back(s);
+//		}
+//		Min_child(v);
+//	}
+//	return 0;
+//}
