@@ -2,7 +2,7 @@
 #include<cmath>
 #include<iostream>
 using namespace std;
-int main1212() {
+int main() {
 	int a, b;
 	string s, y;
 	while (cin >> s >> y >> a >> b) {
