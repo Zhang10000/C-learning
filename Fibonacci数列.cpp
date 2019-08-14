@@ -1,4 +1,4 @@
-/*#include<iostream>
+#include<iostream>
 #include<vector>
 using namespace std;
 vector<long> v;
@@ -22,4 +22,4 @@ int main21() {
 	s = (v[v.size() - 1] - s) > (s - v[v.size() - 2]) ? (s - v[v.size() - 2]) : (v[v.size() - 1] - s);
 	cout << s << endl;
 	return 0;
-}*/
+}
