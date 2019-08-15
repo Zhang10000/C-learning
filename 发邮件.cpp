@@ -1,4 +1,4 @@
-#/*include<iostream>
+#include<iostream>
 using namespace std;
 int main() {
 	long long a;
@@ -12,4 +12,4 @@ int main() {
 		cout << sum[a] << endl;
 	}
 	return 0;
-}*/
+}
