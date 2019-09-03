@@ -16,10 +16,3 @@ int fCost(string A, string B) {
 		}
 	return dp[n][m];
 }
-int main() {
-	string a, b;
-	while (cin >> a >> b) cout << fCost(a, b) << endl;
-	return 0;
-}
-
-
