@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool path(char* matrix, int rows, int cols, int i,int j,char* str,int * flag){
+        int distance=i*rows+j;
+        if(i<0||i>=rows||j<0||j>=cols||matrix[distance]!=str[distance]||flag[distance]==1)
+            return false;
+        flag[distance]=1;
+        if(path(char* matrix, int rows, int cols, int i-1,int j,char* str,int * flag)||
+          path(char* matrix, int rows, int cols, int i+1,int j,char* str,int * flag)||
+          path(char* matrix, int rows, int cols, int i,int j-1,char* str,int * flag)||
+          path(char* matrix, int rows, int cols, int i,int j+1,char* str,int * flag))
+            return true;
+        return true;
+    }
+    bool hasPath(char* matrix, int rows, int cols, char* str)
+    {
+     
+        if(matrix==NULL||str==NULL) return false;
+        int flag[]=new int[rows*cols];
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(path(char* matrix, int rows, int cols, int i,int j,char* str,int * flag))
+                    return true;
+            }
+        }
+        delete flag;
+        return false;
+         
+        }
+ 
+ 
+};
