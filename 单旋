@@ -1,0 +1,289 @@
+#include<iostream>
+using namespace std;
+
+template<class K,class V>
+struct AVLTreeNode
+{
+                AVLTreeNode<K,V>* _left;
+                AVLTreeNode<K,V>* _right;
+                AVLTreeNode<K,V>* _parent;
+                K_key;    
+                V_value;
+                int_bf;  //节点的平衡因子
+                AVLTreeNode(constK&key,constV&value)
+                                : _left(NULL)
+                                , _right(NULL)
+                                , _parent(NULL)
+                                , _key(key)
+                                , _value(value)
+                                , _bf(0)
+                { }
+};
+
+template<class K,class V>
+class AVLTree
+{
+typedef AVLTreeNode<K,V>Node;
+public:
+AVLTree()
+                :_root(NULL)
+{ }
+bool Insert(constK&key,constV&value)
+{
+                if(_root ==NULL)
+                {
+                                _root =newNode(key,value);
+                                returntrue;
+                }
+                //找新的节点要插入的位置
+                Node* cur = _root;
+                Node* parent =NULL;
+                while(cur)
+                {
+                                if(cur->_key <key)
+                                {
+                                                parent = cur;
+                                                cur = cur->_right;
+                                }
+                                elseif(cur->_key>key)
+                                {
+                                                parent = cur;
+                                                cur = cur->_left;
+                                }
+                                else
+                                {
+                                                returnfalse;
+                                }
+                }
+                cur = new Node(key,value);
+                if(parent->_key >key)
+                {
+                                parent->_left = cur;
+                                cur->_parent = parent;
+                }
+                else
+                {
+                                parent->_right = cur;
+                                cur->_parent = parent;
+                }
+
+                //更新平衡因子
+                //对于已经存在若干节点的二叉树，在插入一个新结点的时候，会影响其父节点到根节点这一路的节点的平衡因子
+                //需要自下而上的开始调整其平衡因子，如果当前父节点的bf=1或-1，则把当前节点的父亲给cur，把当前节点的父亲的父亲
+                //作为新的父亲节点，然后对新的父节点的bf做调整，调整过后如果bf=1或-1，依然继续向上调整，直到调整到根节点，因为
+                //父节点的父亲为NULL，无法进入循环。当在调整的过程中遇到父节点的bf=2或-2的时候，则需要通过旋转来调整二叉树
+                //右单旋：cur->bf=-1  parent->bf=-2
+                //左单旋：cur->bf=1   parent->bf=2
+                //右左单旋：cur->bf=-1  parent->bf=2
+                //左右单旋：cur->bf=1   parent->bf=-2
+                while(parent)
+                {
+                                //如果新的节点在父节点的左边，则平衡因子--
+                                if(parent->_left == cur)
+                                {
+                                                parent->_bf--;
+                                }
+
+                                //如果新的节点在父节点的右边，则平衡因子++
+                                else
+                                {
+                                                parent->_bf++;  
+                                }
+
+                                //平衡因子是0说明这个节点的高度是没有变化的，没有对父节点造成影响，所以不用再调整
+                                if(parent->_bf == 0)   
+                                {
+                                                break;
+                                }
+
+                                //父节点平衡因子是1或-1说明该节点的平衡因子因为插入的节点而
+                                //有了变化，而且会对父节点造成影响，所以继续向上调整
+                                elseif(parent->_bf == 1 || parent->_bf == -1)
+                                {
+                                                cur = parent;
+                                                parent = parent->_parent;
+                                }
+                                else   //平衡因子为2或-2
+                                {
+                                                if(cur->_bf == 1)
+                                                {
+                                                                //cur->bf=1,parent->bf=2  左单旋
+                                                                if(parent->_bf == 2)
+                                                                {
+                                                                                RotateL(parent);
+                                                                }
+                                                                //cur->bf=1,parent->bf=-2  左右双旋
+                                                                else
+                                                                {
+                                                                                RotateLR(parent);
+                                                                }
+                                                }
+                                                else //cur->bf=-1
+                                                {
+                                                                //cur->bf=-1,parent->bf=-2  右单旋
+                                                                if(parent->_bf == -2)
+                                                                {
+                                                                                RotateR(parent);
+                                                                }
+                                                                //cur->bf=-1,parent->bf=2  右左单旋
+                                                                else
+                                                                {
+                                                                                RotateRL(parent);
+                                                                }
+                                                }
+                                                break;
+                                }
+                }
+                returntrue;
+}
+
+void InOrder()
+{
+                _InOrder(_root);
+                cout << endl;
+}
+boolIsBlance()
+{
+                return_IsBlance(_root);
+}
+protected:
+//左单旋
+voidRotateL(Node*parent)
+{
+                Node* subR =parent->_right;
+                Node* subRL = subR->_left;
+
+                parent->_right = subRL;
+                if(subRL)
+                                subR->_parent =parent;
+
+                subR->_left =parent;
+
+                Node* ppNode =parent->_parent;
+                parent->_parent = subR;
+                if(ppNode ==NULL)
+                {
+                                _root = subR;
+                                subR->_parent =NULL;
+                }
+                else
+                {
+                                if(ppNode->_left ==parent)
+                                {
+                                                ppNode->_left = subR;
+                                                subR->_parent = ppNode;
+                                }
+                                else
+                                {
+                                                ppNode->_right = subR;
+                                                subR->_parent = ppNode;
+                                }              
+                }
+                parent->_bf = subR->_bf = 0;
+}
+//右单旋
+voidRotateR(Node*parent)
+{
+                Node* subL =parent->_left;
+                Node* subLR = subL->_right;
+
+                parent->_left= subLR;
+                if(subLR)
+                                subLR->_parent =parent;
+                subL->_right =parent;
+
+                Node* ppNode =parent->_parent;
+                parent->_parent = subL;
+                if(ppNode ==NULL)
+                {
+                                _root = subL;
+                                subL->_parent =NULL;
+                }
+
+                else
+                {
+                                if(ppNode->_left ==parent)
+                                {
+                                                ppNode->_left = subL;
+                                                subL->_parent = ppNode;
+                                }
+
+                                else
+                                {
+                                                ppNode->_right = subL;
+                                                subL->_parent = ppNode;
+                                }                              
+                }
+                parent->_bf = subL->_bf = 0;
+}
+void RotateLR(Node*parent)
+{
+                RotateL(parent->_left);
+                RotateR(parent);
+}
+void RotateRL(Node*parent)
+{
+                RotateR(parent->_right);
+                RotateL(parent);
+}
+
+void_InOrder(Node*root)
+{
+                if(root==NULL)
+                                return;
+
+                _InOrder(root->_left);
+                cout <<root->_key <<" ";
+                _InOrder(root->_right);
+}
+int Hight(Node*root)
+{
+                if(root==NULL)
+                {
+                                return0;
+                }
+
+                intleft = Hight(root->_left);
+                intright = Hight(root->_right);
+                returnleft > right ? left+1 : right+1;
+}
+
+bool _IsBlance(Node*root)
+{
+                //二叉树为空认为是平衡二叉树
+                if(root==NULL)
+                {
+                                returntrue;
+                }
+                intleft_bf = Hight(root->_left);
+                intright_bf = Hight(root->_right);
+                intbf = right_bf - left_bf;
+                if(bf !=root->_bf || df<-1 || df>1)
+                {
+                                returnfalse;
+                }
+                return_IsBlance(root->_left) && _IsBlance(root->_right);
+}
+private:
+        Node* _root;
+};
+
+voidTest()
+{
+                intarr[] = { 16, 3, 7, 11, 9, 26, 18, 14, 15 };
+                //int arr[] = { 4, 2, 6, 1, 3, 5, 15, 7, 16, 14 };
+                AVLTree<int,int> t;
+                for(inti = 0; i <sizeof(arr) /sizeof(arr[0]); i++)
+                {
+                                t.Insert(arr[i], i);
+                }
+                t.InOrder();
+                cout <<"是否是平衡二叉树："<< t.IsBlance() << endl;
+}
+
+intmain()
+{
+                Test();
+
+                return0;
+}
