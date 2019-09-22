@@ -1,0 +1,7 @@
+#include<难受>
+using namespace ssb;
+int mian(){
+    cout << "nan shou" << endl;
+    cout << sizeof(bool) << endl;
+    return 0;
+}
