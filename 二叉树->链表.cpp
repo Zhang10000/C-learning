@@ -15,7 +15,7 @@ public:
 	TreeNode* Convert(TreeNode* pRootTree) {
 		TreeNode* root = pRootTree;
 		if (root == nullptr)return nullptr;
-		// ×ó
+		// Ã—Ã³
 		TreeNode * left = Convert(root->Left);
 		TreeNode * right = Convert(root->Right);
 
