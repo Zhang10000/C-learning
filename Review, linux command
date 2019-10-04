@@ -1,0 +1,21 @@
+安装和登录命令：login、shutdown、halt、reboot、install、mount、umount、chsh、exit、last；
+文件处理命令：file、mkdir、grep、dd、find、mv、ls、diff、cat、ln；
+系统管理相关命令：df、top、free、quota、at、lp、adduser、groupadd、kill、crontab；
+网络操作命令：ifconfig、ip、ping、netstat、telnet、ftp、route、rlogin、rcp、finger、mail、 nslookup；
+系统安全相关命令：passwd、su、umask、chgrp、chmod、chown、chattr、sudo ps、who；
+其它命令：tar、unzip、gunzip、unarj、mtools、man、unendcode、uudecode
+
+shell命令以及运行原理
+Linux严格意义上说的是一个操作系统，我们称之为“核心（kernel）“ ，但我们一般用户，不能直接使用kernel。
+而是通过kernel的“外壳”程序，也就是所谓的shell，来与kernel沟通。如何理解？为什么不能直接使用kernel？
+从技术角度，Shell的最简单定义：命令行解释器（command Interpreter）主要包含：
+将使用者的命令翻译给核心（kernel）处理。
+同时，将核心的处理结果翻译给使用者。
+对比windows GUI，我们操作windows 不是直接操作windows内核，而是通过图形接口，点击，从而完成我们的
+操作（比如进入D盘的操作，我们通常是双击D盘盘符.或者运行起来一个应用程序）。
+shell 对于Linux，有相同的作用，主要是对我们的指令进行解析，解析指令给Linux内核。反馈结果在通过内核运
+行出结果，通过shell解析给用户。
+帮助理解：如果说你是一个闷骚且害羞的程序员，那shell就像媒婆，操作系统内核就是你们村头漂亮的
+且有让你心动的MM小花。你看上了小花，但是有不好意思直接表白，那就让你你家人找媒婆帮你提
+亲，所有的事情你都直接跟媒婆沟通，由媒婆转达你的意思给小花，而我们找到媒婆姓王，所以我们叫
+它王婆，它对应我们常使用的bash。
