@@ -1,0 +1,71 @@
+/* 二叉树：
+                  10
+               /      \
+             -2        6
+           /   \      /  \ 
+          8    -4    7    5
+
+求和树：
+                 20(4-2+12+6)
+               /      \
+           4(8-4)      12(7+5)
+            /   \      /  \ 
+          0      0    0    0  */
+          
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <sstream>
+using namespace std;
+//res用于存取结果，left2和right2指示序列v2的编号，indexofv1标识v1
+void digui(vector<int> &v1, vector<int> &v2, int indexofv1, int left2, int right2, vector<int> &res){
+    if(left2 > right2)
+        return;
+    if(left2 == right2){
+        res[left2] = 0;
+        return;
+    }
+    int temp = 0;
+    int i = left2;
+    for(; i <= right2; i++)
+        temp += v2[i];
+    i = left2;
+    for(; i <= right2; i++){
+        if(v2[i] == v1[indexofv1])
+            break;
+    }
+    res[i] = temp-v1[indexofv1];  //减去对应根节点的值
+    digui(v1, v2, indexofv1 + 1, left2, i - 1, res);  //递归处理左子树
+    digui(v1, v2, indexofv1 + 1 + i - left2, i + 1, right2, res);   //递归处理右子树
+}
+int main(){
+    //string str1, str2;
+    //getline(cin, str1);
+    //getline(cin, str2);
+    //vector<int> vec1, vec2;
+    //istringstream str(str1);
+    //int temp;
+    vector<int> vec1, vec2;
+    int tmp;
+    while(true){
+        //scanf("%d",&tmp);
+        cin>>tmp;
+        vec1.push_back(tmp);
+        if(getchar()=='\n') break;
+    }
+    for(int i=0;i<vec1.size();++i)
+    {
+        //scanf("%d",&tmp);
+        cin>>tmp;
+        vec2.push_back(tmp);
+    }
+        //vec1.push_back(temp);
+    //istringstream str0(str2);
+    vector<int> res(vec1.size(), 0);
+    digui(vec1, vec2, 0, 0, vec2.size() - 1, res);
+    for(int i = 0; i < res.size(); i++)
+        cout << res[i] << " ";
+    cout << endl;
+    return 0;
+}
