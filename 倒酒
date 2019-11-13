@@ -1,0 +1,68 @@
+ 收起
+题目描述
+Winy是一家酒吧的老板，他的酒吧提供两种体积的啤酒，a ml和b ml，分别使用容积为a ml和b ml的酒杯来装载。
+
+酒吧的生意并不好。Winy发现酒鬼们都非常穷。有时，他们会因为负担不起aml或者bml啤酒的消费，而不得不离去。因此，Winy决定出售第三种体积的啤酒(较小体积的啤酒)。
+
+Winy只有两种杯子，容积分别为a ml和b ml，而且啤酒杯是没有刻度的。他只能通过两种杯子和酒桶间的互相倾倒来得到新的体积的酒。
+
+为了简化倒酒的步骤，Winy规定：
+
+（1）a≥b；
+
+（2）酒桶容积无限大，酒桶中酒的体积也是无限大(但远小于桶的容积)；
+
+（3）只包含三种可能的倒酒操作：
+
+①将酒桶中的酒倒入容积为b ml的酒杯中；
+
+②将容积为a ml的酒杯中的酒倒入酒桶；
+
+③将容积为b ml的酒杯中的酒倒入容积为a ml的酒杯中。
+
+（4）每次倒酒必须把杯子倒满或把被倾倒的杯子倒空。
+
+Winy希望通过若干次倾倒得到容积为a ml酒杯中剩下的酒的体积尽可能小，他请求你帮助他设计倾倒的方案
+
+
+
+
+#include <iostream>
+#include <cstdlib>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+inline int read(){
+    int x=0,w=1;
+    char ch=getchar();
+    for(;ch>'9'||ch<'0';ch=getchar()) if(ch=='-') w=-1;
+    for(;ch>='0'&&ch<='9';ch=getchar()) x=x*10+ch-'0';
+    return x*w;
+}
+
+inline int exgcd(int a,int b,int &x,int &y){
+    if(b==0){
+        x=1,y=0;
+        return a;
+    }
+    int tmp=exgcd(b,a%b,x,y);
+    int t=x;
+    x=y;
+    y=t-a/b*x;
+    return tmp;
+}
+
+int main(){
+    int a,b,x,y;
+    a=read(),b=read();
+    int ans=exgcd(a,b,x,y);
+    cout<<ans<<'\n';
+    x*=-1,a*=-1;
+    while(x<0||y<0){
+        x+=b/ans*(x<0);
+        y-=a/ans*(x>=0);
+    }
+    cout<<x<<" "<<y;
+    return 0;
+}
