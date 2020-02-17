@@ -27,7 +27,6 @@ class Solution {
             }
         }
 
-        //3个连续判断
         int triSameCount=0;
         List<Integer> list=new ArrayList<>();
         for(int i=0;i<chars.length-2;){
